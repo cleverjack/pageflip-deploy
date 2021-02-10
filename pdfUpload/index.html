@@ -1,0 +1,71 @@
+<div class="page">
+  <div style="text-align: right;">
+    <button ng-click="publishPdf()">{{pdfData.published ? 'Make it draft' : 'Publish book'}}</button>
+  </div>
+  <div class="d-flex">
+    <div class="flex-1 left-panel">
+      <h1>PDF Process</h1>
+      <div>
+        <input type="file" onchange="angular.element(this).scope().changeFile(this)" accept=".pdf"/>
+        <button ng-click="uploadFile()">Upload PDF</button>
+      </div>
+      <div>
+        <div id="flip-book-wrapper" style="margin-top: 50px;">
+       
+        </div>
+      </div>
+    </div>
+    <div class="flex-1">
+      <div class="flex-1 right-panel">
+        <h1>Audio File</h1>
+        <div>
+          <h2>Background Audio</h2>
+          <input type="file" onchange="angular.element(this).scope().changeBackgroundAudioFile(this)" accept="audio/*"/>
+          <button ng-click="uploadAudioFile(0)">Upload Audio</button>
+        </div>
+        <div ng-if="bgAudio.url">
+          <p>{{bgAudio.name}}</p>
+          <audio controls>
+            <source src="{{'http://52.53.215.21:3002/audio/' + bgAudio.url}}">
+            Your browser does not support the audio tag.
+          </audio>
+        </div>
+        <button ng-click="deleteAudio(bgAudio)">Remove Background Audio</button>
+        <div>
+          <h2>Page Audio</h2>
+          <div>
+            <label>Page Number</label>
+            <input ng-model="currentPageNum" style="width: 100px;"/>
+          </div>
+          <input type="file" onchange="angular.element(this).scope().changePageAudioFile(this)" accept="audio/*"/>
+          <button ng-click="uploadAudioFile(1)">Upload Audio</button>
+        </div>
+        <div>
+          <table class="pdf-table">
+            <thead>
+              <th>Page</th>
+              <th>Name</th>
+              <th></th>
+              <th>Action</th>
+            </thead>
+            <tbody>
+              <tr ng-repeat="file in pageAudios">
+                <td>{{file.pageNum}}</td>
+                <td>{{file.name}}</td>
+                <td>
+                  <audio controls>
+                    <source src="{{'http://52.53.215.21:3002/audio/' + file.url}}">
+                    Your browser does not support the audio tag.
+                  </audio>
+                </td>
+                <td>
+                  <button ng-click="deleteAudio(file)">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
